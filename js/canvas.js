@@ -10,56 +10,38 @@ var img3PosX = 150;
 var img3PosY = 150;
 var speed = 2;
 
-function  animation1(){
-
-  //img1 animate
-  img1PosX -= speed;
-  img1PosY -= speed;
-
-  //img3 animate
-  img3PosX += speed;
-  img3PosY += speed;
-
-  if (img1PosX == 0){
-    speed = 0;
-  }
-}
-
-function animation2(){
-  //img1 animate
-  img1PosY -= speed;
-
-  //img3 animate
-  img3PosY += speed;
-
-  if (img1PosX == 200){
-    speed = 0;
-  }
-}
-
-function animation3(){
-}
-
-
-function animate(){
-  var requestAnimationFrame = window.requestAnimationFrame || 
+var requestAnimationFrame = window.requestAnimationFrame || 
                             window.mozRequestAnimationFrame || 
                             window.webkitRequestAnimationFrame || 
                             window.msRequestAnimationFrame;
 
-  requestAnimationFrame(animate);
+function animation1(){
 
+    //img1 animate
+    img1PosX -= speed;
+    img1PosY -= speed;
+
+    //img3 animate
+    img3PosX += speed;
+    img3PosY += speed;
+
+   if (img1PosX == 0){
+      speed = 0;
+    } 
+}
+
+function animate(){
+  console.log('animating')
+  requestAnimationFrame(animate);
   image1.src = 'http://riley.dev.kargo.com/code-test/test0.png'
   image2.src = 'http://riley.dev.kargo.com/code-test/test1.png'
   image3.src = 'http://riley.dev.kargo.com/code-test/test2.png'
   animation1();
-  animation2();
-  animation3();
-
   requestAnimationFrame(draw);
 }
 
 function draw(){
+  console.log('drawing')
   var canvas = document.getElementById('canvas');
   var ctx = canvas.getContext("2d");
   ctx.canvas.width  = 300;
@@ -69,6 +51,7 @@ function draw(){
   ctx.drawImage(image1,img1PosX,img1PosY ,100,100);
   ctx.drawImage(image2,100,100,100,100);
   ctx.drawImage(image3,img3PosX,img3PosY ,100,100);
+  ctx.save();
   requestAnimationFrame(draw);
 } 
 
