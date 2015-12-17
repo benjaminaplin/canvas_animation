@@ -3,7 +3,7 @@ console.log('canvas linked!')
 var image1 = new Image();
 var image2 = new Image();
 var image3 = new Image();
-image3.zindex = 0
+
 var img1PosX = 50;
 var img1PosY = 50;
 var img3PosX = 150;
@@ -59,11 +59,13 @@ function animate(){
   image2.src = 'http://riley.dev.kargo.com/code-test/test1.png'
   image3.src = 'http://riley.dev.kargo.com/code-test/test2.png'
   animation1();
-   requestAnimationFrame(draw);
+  requestAnimationFrame(draw);
 }
 
 function draw(){
   console.log('drawing')
+  console.log(image2.zindex)
+
   var canvas = document.getElementById('canvas');
   var ctx = canvas.getContext("2d");
   ctx.globalCompositeOperation = "destination-over";
@@ -71,9 +73,13 @@ function draw(){
   ctx.canvas.height = 300;
   ctx.fillStyle = "#d3d3d3";
   ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+  //somehow put these into an array and 
+  //draw them in a different order when the first two 
+  //animation sequences are finished
+  
   ctx.drawImage(image1,img1PosX,img1PosY);
-  ctx.drawImage(image3,img3PosX,img3PosY);
   ctx.drawImage(image2,img2PosX,img2PosY,img2width,img2height);
+  ctx.drawImage(image3,img3PosX,img3PosY);
   ctx.save();
   var requestID = requestAnimationFrame(draw);
 } 
