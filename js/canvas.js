@@ -1,22 +1,22 @@
 console.log('canvas linked!')
 
-var image1 = new Image();
-var image2 = new Image();
-var image3 = new Image();
+var image1 = new Image(),
+    image2 = new Image(),
+    image3 = new Image();
 
-var img1PosX = 50;
-var img1PosY = 50;
-var img3PosX = 150;
-var img3PosY = 150;
-var img2PosX = 100;
-var img2PosY = 100;
-var img2width = 100;
-var img2height = 100;
+var img1PosX = 50,
+    img1PosY = 50,
+    img3PosX = 150,
+    img3PosY = 150,
+    img2PosX = 100,
+    img2PosY = 100,
+    img2width = 100,
+    img2height = 100,
+    forward = true,
+    speed = 2,
+    img2speed = 2;
 
-var speed = 2;
-var img2speed = 2;
-
-var requestAnimationFrame = window.requestAnimationFrame || 
+ var requestAnimationFrame = window.requestAnimationFrame || 
                             window.mozRequestAnimationFrame || 
                             window.webkitRequestAnimationFrame || 
                             window.msRequestAnimationFrame;
@@ -43,8 +43,8 @@ function animation1(){
 
 
     if (speed == 0 && img2height <= 300) {
-      image2.zindex = 100;
-      console.log('heyo')
+      forward = false
+      console.log(forward)
       img2PosY -= img2speed;
       img2PosX -= img2speed;
       img2height += img2speed * 2;
@@ -53,7 +53,6 @@ function animation1(){
 }
 
 function animate(){
-  console.log('animating')
   requestAnimationFrame(animate);
   image1.src = 'http://riley.dev.kargo.com/code-test/test0.png'
   image2.src = 'http://riley.dev.kargo.com/code-test/test1.png'
@@ -63,9 +62,7 @@ function animate(){
 }
 
 function draw(){
-  console.log('drawing')
-  console.log(image2.zindex)
-
+  var image, dx, dy, dWidth, dHeight
   var canvas = document.getElementById('canvas');
   var ctx = canvas.getContext("2d");
   ctx.globalCompositeOperation = "destination-over";
@@ -76,10 +73,40 @@ function draw(){
   //somehow put these into an array and 
   //draw them in a different order when the first two 
   //animation sequences are finished
+
+  var draw1 = function draw1(){
+    ctx.drawImage(image1,img1PosX,img1PosY);
+  }
+
+  var draw2 = function draw2(){
+    ctx.drawImage(image2,img2PosX,img2PosY,img2width,img2height);
+  }
+
+  var draw3 = function draw3(){
+    ctx.drawImage(image3,img3PosX,img3PosY);
+  }
+
+  var drawArray = [draw1,draw2,draw3];
   
-  ctx.drawImage(image1,img1PosX,img1PosY);
-  ctx.drawImage(image2,img2PosX,img2PosY,img2width,img2height);
-  ctx.drawImage(image3,img3PosX,img3PosY);
+  if (forward == true){
+    console.log('true', drawArray)
+    //if true, it runs 1,2,3
+   drawArray.forEach(function(e){
+    e();
+   });
+  }
+  if(forward == false){
+    console.log('false', drawArray)
+
+    //if false, it runs 1,3,2
+    drawArray = [draw1,draw3,draw2];
+    drawArray.forEach(function(e){
+      e();
+    });
+    drawArray = [draw1,draw2,draw3];
+  }
+  
+
   ctx.save();
   var requestID = requestAnimationFrame(draw);
 } 
