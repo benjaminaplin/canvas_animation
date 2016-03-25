@@ -2,15 +2,15 @@ console.log('canvas3 linked')
 var forward = true;
 
 var one = function one(){
-  console.log('dong1');
+  console.log('one');
 }
 
 var two = function two(){
-  console.log('dong2');
+  console.log('two');
 }
 
 var three = function three(){
-  console.log('dong3');
+  console.log('three');
 }
 
 var arr = [one, two, three]
